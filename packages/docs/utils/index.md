@@ -16,7 +16,6 @@ export const toKebabCase = (val: string) => {
 | 返回值   | `string` - 转换后的短横线命名格式的字符串。                          |
 | 示例     | 见下方代码示例。                                                     |
 
-
 ```typescript
 import { toLine } from '@/utils/toLine';
 
