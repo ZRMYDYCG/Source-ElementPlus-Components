@@ -2,6 +2,7 @@
 import { computed } from "vue"
 import * as ElIcon from "@element-plus/icons-vue"
 import { toKebabCase } from "@/utils/index.ts"
+import { useCopy } from "@/hooks/index.ts"
 
 const props = defineProps<{
   /*弹出框标题*/
@@ -22,6 +23,12 @@ const dialogVisible = computed({
 const handleClick = () => {
   dialogVisible.value = !dialogVisible.value
 }
+
+const handleSelectItem = (item: string) => {
+  let text = `<el-icon-${toKebabCase(item)} />`
+  useCopy(text)
+  emits("update:visible", false)
+}
 </script>
 
 <template>
@@ -36,7 +43,8 @@ const handleClick = () => {
         <div
           v-for="(item, index) in Object.keys(ElIcon)"
           :key="index"
-          class="flex flex-col items-center justify-center p-4 bg-gray-100 border border-gray-300 rounded"
+          class="flex flex-col items-center justify-center cursor-pointer p-4 bg-gray-100 border border-gray-300 rounded"
+          @click="handleSelectItem(item)"
         >
           <component
             :is="`el-icon-${toKebabCase(item)}`"
