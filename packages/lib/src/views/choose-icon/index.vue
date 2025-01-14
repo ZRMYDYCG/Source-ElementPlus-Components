@@ -7,7 +7,7 @@ const visible = ref(false)
 <template>
   <div>
     <choose-icon title="选择图标" v-model:visible="visible">
-      选择图标
+      <span>选择图标</span>
     </choose-icon>
   </div>
 </template>
