@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from "vue-router"
 import { createRouter, createWebHistory } from "vue-router"
-import Home from "@/views/Home/index.vue"
+import Home from "@/views/home/index.vue"
 
 const routes: RouteRecordRaw[] = [
   {
@@ -10,6 +10,10 @@ const routes: RouteRecordRaw[] = [
       {
         path: "/",
         component: Home,
+      },
+      {
+        path: "/chooseIcon",
+        component: () => import("@/views/choose-icon/index.vue"),
       },
     ],
   },

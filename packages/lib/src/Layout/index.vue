@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue"
-import LayoutHeader from "./components/Header/index.vue"
-import LayoutAside from "./components/Aside/index.vue"
-import LayoutMain from "./components/Main/index.vue"
+import LayoutHeader from "@/Layout/components/header/index.vue"
+import LayoutAside from "@/Layout/components/aside/index.vue"
+import LayoutMain from "@/Layout/components/main/index.vue"
 
 const isCollapse = ref(false)
 </script>

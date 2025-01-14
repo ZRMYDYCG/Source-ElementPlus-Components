@@ -1,8 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <el-button> </el-button>
-  <el-icon-edit></el-icon-edit>
+  <div>工作台</div>
 </template>
 
 <style scoped></style>
