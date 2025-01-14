@@ -7,3 +7,17 @@ svg {
     width: 1em;
     height: 1em;
 }
+
+/*主要针对布局容器的高度*/
+html,
+body,
+#app,
+.el-container,
+.el-menu {
+    height: 100%;
+}
+
+/*主要针对el-menu未伸缩状态是的宽度*/
+.el-menu-vertical:not(.el-menu--collapse) {
+    width: 200px;
+}
