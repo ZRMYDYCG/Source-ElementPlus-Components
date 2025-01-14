@@ -1,5 +1,7 @@
 <script setup lang="ts"></script>
 
-<template>Home</template>
+<template>
+  <el-button>Home</el-button>
+</template>
 
 <style scoped></style>
