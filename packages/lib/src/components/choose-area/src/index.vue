@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from "vue"
+import { ref, computed, watch } from "vue"
 import allAreas from "../lib/pca-code.json"
 
 // 所有的省市区数据
@@ -12,27 +12,39 @@ const city = ref("")
 const area = ref("")
 
 // 筛选省份后的城市数据
-const selectCity = computed(() => {
-  if (!province.value) {
-    return []
-  } else {
-    return all.value.find((item) => item.code === province.value)?.children
-  }
-})
-
+const selectCity = ref([])
 // 筛选城市后的区县数据
-const selectArea = computed(() => {
-  if (!city.value) {
-    return []
-  } else {
-    return selectCity.value.find((item) => item.code === city.value)?.children
-  }
-})
+const selectArea = ref([])
+
+watch(
+  () => province.value,
+  (val) => {
+    if (val) {
+      selectCity.value = all.value.find(
+        (item) => item.code === province.value,
+      )?.children
+    }
+    city.value = ""
+    area.value = ""
+  },
+)
+
+watch(
+  () => city.value,
+  (val) => {
+    if (val) {
+      selectArea.value = selectCity.value.find(
+        (item) => item.code === city.value,
+      )?.children
+    }
+    area.value = ""
+  },
+)
 </script>
 
 <template>
   <div class="flex gap-2">
-    <el-select placeholder="请选择省份" v-model="province">
+    <el-select clearable placeholder="请选择省份" v-model="province">
       <el-option
         v-for="item in all"
         :key="item.code"
@@ -40,7 +52,12 @@ const selectArea = computed(() => {
         :label="item.name"
       ></el-option>
     </el-select>
-    <el-select :disabled="!province" placeholder="请选择城市" v-model="city">
+    <el-select
+      clearable
+      :disabled="!province"
+      placeholder="请选择城市"
+      v-model="city"
+    >
       <el-option
         v-for="item in selectCity"
         :key="item.code"
@@ -52,6 +69,7 @@ const selectArea = computed(() => {
       :disabled="!province || !city"
       placeholder="请选择区县"
       v-model="area"
+      clearable
     >
       <el-option
         v-for="item in selectArea"
