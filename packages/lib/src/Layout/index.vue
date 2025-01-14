@@ -1,46 +1,30 @@
 <script setup lang="ts">
 import { ref } from "vue"
+import LayoutHeader from "./components/Header/index.vue"
+import LayoutAside from "./components/Aside/index.vue"
+import LayoutMain from "./components/Main/index.vue"
 
 const isCollapse = ref(false)
-
-const toggleCollapse = () => {
-  isCollapse.value = !isCollapse.value
-}
 </script>
 
 <template>
   <el-container>
     <el-aside width="auto">
-      <el-menu class="el-menu-vertical" :collapse="isCollapse">
-        <el-menu-item>
-          <span>导航1</span>
-        </el-menu-item>
-        <el-menu-item>
-          <span>导航2</span>
-        </el-menu-item>
-        <el-menu-item>
-          <span>导航3</span>
-        </el-menu-item>
-        <el-menu-item>
-          <span>导航4</span>
-        </el-menu-item>
-        <el-menu-item>
-          <span>导航5</span>
-        </el-menu-item>
-      </el-menu>
+      <layout-aside :collapse="isCollapse" />
     </el-aside>
     <el-container>
       <el-header>
-        <span @click="toggleCollapse">
-          <el-icon-expand v-if="isCollapse"></el-icon-expand>
-          <el-icon-fold v-else></el-icon-fold>
-        </span>
+        <layout-header v-model:collapse="isCollapse" />
       </el-header>
       <el-main>
-        <router-view />
+        <layout-main />
       </el-main>
     </el-container>
   </el-container>
 </template>
 
-<style scoped></style>
+<style scoped>
+:deep(.el-header) {
+  --el-header-padding: 0;
+}
+</style>
