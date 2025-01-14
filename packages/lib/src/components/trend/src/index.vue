@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { defineProps, withDefaults, useSlots, computed } from "vue"
+import { toKebabCase } from "@/utils"
 
 const props = withDefaults(
   defineProps<{
@@ -7,6 +8,10 @@ const props = withDefaults(
     type: "up" | "down"
     /*文字*/
     text: string
+    /*上升趋势的图标*/
+    upIcon: string
+    /*下降趋势的图标*/
+    downIcon: string
     /*上升趋势的图标颜色*/
     upColor: string
     /*下降趋势的图标颜色*/
@@ -21,6 +26,8 @@ const props = withDefaults(
   {
     type: "up",
     text: "趋势",
+    upIcon: "ArrowUp",
+    downIcon: "ArrowDown",
     upColor: "#57c5f7",
     downColor: "#f04134",
     reverseColor: false,
@@ -70,14 +77,16 @@ const finalDownTextColor = computed(() => {
       <div v-else>{{ text }}</div>
     </div>
     <div class="icon">
-      <el-icon-arrowup
-        :style="{ color: finalUpColor }"
+      <component
+        :is="`el-icon-${toKebabCase(upIcon)}`"
         v-if="type === 'up'"
-      ></el-icon-arrowup>
-      <el-icon-arrowdown
+        :style="{ color: finalUpColor }"
+      ></component>
+      <component
+        :is="`el-icon-${toKebabCase(downIcon)}`"
         :style="{ color: finalDownColor }"
         v-else
-      ></el-icon-arrowdown>
+      ></component>
     </div>
   </div>
 </template>
