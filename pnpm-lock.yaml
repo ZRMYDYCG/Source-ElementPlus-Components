@@ -16,6 +16,9 @@ importers:
 
   packages/lib:
     dependencies:
+      '@element-plus/icons-vue':
+        specifier: ^2.3.1
+        version: 2.3.1(vue@3.5.13(typescript@5.6.3))
       element-plus:
         specifier: ^2.9.3
         version: 2.9.3(vue@3.5.13(typescript@5.6.3))
