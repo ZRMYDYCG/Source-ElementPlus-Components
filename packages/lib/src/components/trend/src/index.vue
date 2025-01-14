@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, withDefaults, useSlots, computed } from "vue"
+import { useSlots, computed } from "vue"
 import { toKebabCase } from "@/utils"
 
 const props = withDefaults(
@@ -31,8 +31,8 @@ const props = withDefaults(
     upColor: "#57c5f7",
     downColor: "#f04134",
     reverseColor: false,
-    upTextColor: "#4cda7b",
-    downTextColor: "#982370",
+    upTextColor: "#000000", // 默认改为黑色
+    downTextColor: "#000000", // 默认改为黑色
   },
 )
 
@@ -40,39 +40,28 @@ const slots = useSlots()
 
 const defaultUpColor = "#57c5f7"
 const defaultDownColor = "#f04134"
-const defaultUpTextColor = "#4cda7b"
-const defaultDownTextColor = "#982370"
 
 const finalUpColor = computed(() => {
   return props.upColor === defaultUpColor && props.reverseColor
-    ? "#f04134"
+    ? defaultDownColor
     : props.upColor
 })
 
 const finalDownColor = computed(() => {
   return props.downColor === defaultDownColor && props.reverseColor
-    ? "#57c5f7"
+    ? defaultUpColor
     : props.downColor
 })
 
-const finalUpTextColor = computed(() => {
-  return props.upTextColor === defaultUpTextColor && props.reverseColor
-    ? "#982370"
-    : props.upTextColor
-})
-
-const finalDownTextColor = computed(() => {
-  return props.downTextColor === defaultDownTextColor && props.reverseColor
-    ? "#4cda7b"
-    : props.downTextColor
+// 文字颜色不反转，默认为黑色，支持用户自定义颜色
+const finalTextColor = computed(() => {
+  return props.type === "up" ? props.upTextColor : props.downTextColor
 })
 </script>
 
 <template>
   <div class="items-center gap-1 inline-flex mr-2">
-    <div
-      :style="{ color: type === 'up' ? finalUpTextColor : finalDownTextColor }"
-    >
+    <div :style="{ color: finalTextColor }">
       <slot v-if="slots.default"></slot>
       <div v-else>{{ text }}</div>
     </div>
