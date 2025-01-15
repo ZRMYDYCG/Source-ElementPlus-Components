@@ -21,3 +21,7 @@ body,
 .el-menu-vertical:not(.el-menu--collapse) {
     width: 200px;
 }
+
+.el-popover {
+    --el-popover-padding: 0!important;
+}

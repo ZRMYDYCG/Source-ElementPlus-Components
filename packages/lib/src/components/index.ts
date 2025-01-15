@@ -3,8 +3,9 @@ import chooseArea from "./choose-area"
 import chooseIcon from "./choose-icon"
 import Trend from "./trend"
 import Notification from "./notification"
+import List from "./list"
 
-const components = [chooseArea, chooseIcon, Trend, Notification]
+const components = [chooseArea, chooseIcon, Trend, Notification, List]
 
 export default {
   install(app: App) {
