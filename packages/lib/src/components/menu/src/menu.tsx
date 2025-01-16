@@ -31,7 +31,7 @@ export default defineComponent({
           title: () => {
             return (
               <>
-                {h(iconComponent, { class: "mr-2" })}
+                {h(iconComponent)}
                 <span>{item.name}</span>
               </>
             )
@@ -46,7 +46,7 @@ export default defineComponent({
         }
         return (
           <el-menu-item index={item.index}>
-            {h(iconComponent, { class: "mr-2" })}
+            {h(iconComponent)}
             <span>{item.name}</span>
           </el-menu-item>
         )

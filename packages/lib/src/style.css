@@ -4,16 +4,15 @@
 
 /*主要针对element-plus的svg图标*/
 svg {
-    width: 1em;
-    height: 1em;
+    width: 2em;
+    height: 2em;
 }
 
 /*主要针对布局容器的宽高*/
 html,
 body,
 #app,
-.el-container,
-.el-menu {
+.el-container {
     height: 100%;
 }
 

@@ -1,27 +1,64 @@
 <script setup lang="ts">
+import Logo from "./components/logo.vue"
+
 const props = defineProps<{
   collapse: boolean
 }>()
+
+const data = [
+  {
+    icon: "ElementPlus",
+    name: "工作台",
+    index: "/",
+  },
+  {
+    icon: "ElementPlus",
+    name: "图标选择器",
+    index: "/chooseIcon",
+  },
+  {
+    icon: "ElementPlus",
+    name: "地区选择器",
+    index: "/chooseArea",
+  },
+  {
+    icon: "ElementPlus",
+    name: "趋势变化",
+    index: "/trend",
+  },
+  {
+    icon: "ElementPlus",
+    name: "通知菜单",
+    index: "/notification",
+  },
+  {
+    icon: "ElementPlus",
+    name: "菜单",
+    index: "/menu",
+  },
+  {
+    icon: "ElementPlus",
+    name: "进度条",
+    index: "/progress",
+  },
+]
 </script>
 
 <template>
-  <el-menu class="el-menu-vertical" :collapse="collapse">
-    <el-menu-item>
-      <span>导航1</span>
-    </el-menu-item>
-    <el-menu-item>
-      <span>导航2</span>
-    </el-menu-item>
-    <el-menu-item>
-      <span>导航3</span>
-    </el-menu-item>
-    <el-menu-item>
-      <span>导航4</span>
-    </el-menu-item>
-    <el-menu-item>
-      <span>导航5</span>
-    </el-menu-item>
-  </el-menu>
+  <div class="border-r border-gray-300 h-full">
+    <Logo :collapse="props.collapse" />
+    <yq-infinite-menu
+      class="el-menu-vertical"
+      :data="data"
+      :collapse="props.collapse"
+      router
+      default-active="/"
+    ></yq-infinite-menu>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.el-menu {
+  border-right: none;
+}
+</style>

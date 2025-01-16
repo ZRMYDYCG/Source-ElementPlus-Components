@@ -81,11 +81,7 @@ const dataB = [
 <template>
   <div class="flex">
     <yq-menu :data="dataA" default-active="2"></yq-menu>
-    <yq-infinite-menu
-      :data="dataB"
-      default-active="1"
-      router
-    ></yq-infinite-menu>
+    <yq-infinite-menu :data="dataB" default-active="1"></yq-infinite-menu>
   </div>
 </template>
 
