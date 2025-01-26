@@ -2,12 +2,27 @@
 import { ref } from "vue"
 import city from "../lib/city.ts"
 
+const emits = defineEmits(["change"])
+
 const result = ref<string>("请选择")
 const visible = ref(false)
 
 const radioValue = ref("按城市")
 const selectValue = ref("")
 const options = ref(city)
+
+const clickCity = (item) => {
+  result.value = item.name
+  visible.value = false
+  emits("change", item)
+}
+
+const clickChar = (item: string) => {
+  let el = document.getElementById(item)
+  if (el) {
+    el.scrollIntoView({ behavior: "smooth" })
+  }
+}
 </script>
 
 <template>
@@ -49,18 +64,23 @@ const options = ref(city)
       </el-row>
       <div class="m-2 flex flex-wrap items-center gap-2">
         <div
-          class="px-[6px] border border-gray-300 rounded-md"
+          class="px-[6px] border border-gray-300 rounded-md cursor-pointer"
           v-for="(value, key) in options.cities"
+          @click="clickChar(key)"
         >
           {{ key }}
         </div>
       </div>
       <el-scrollbar max-height="300px">
         <template v-for="(value, key) in options.cities" :key="key">
-          <el-row>
+          <el-row :id="key">
             <el-col :span="1"> {{ key }}: </el-col>
             <el-col :span="23" class="item-name">
-              <div v-for="(item, index) in value" :key="index">
+              <div
+                @click="clickCity(item)"
+                v-for="(item, index) in value"
+                :key="index"
+              >
                 <div>{{ item.name }}</div>
               </div>
             </el-col>
