@@ -44,8 +44,13 @@ const data = [
   {
     icon: "ElementPlus",
     name: "时间选择器",
-    index: "/chooseTime"
-  }
+    index: "/chooseTime",
+  },
+  {
+    icon: "ElementPlus",
+    name: "日期选择器",
+    index: "/chooseDate",
+  },
 ]
 </script>
 
