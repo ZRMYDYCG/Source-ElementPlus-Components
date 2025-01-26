@@ -10,6 +10,7 @@
         :start="startTimeInit"
         :step="startTimeStep"
         :end="startTimeEnd"
+        v-bind="$attrs.startOptions"
       />
     </div>
     <div>
@@ -22,6 +23,7 @@
         :step="endTimeStep"
         :end="endTimeEnd"
         :disabled="endTimeDisabled"
+        v-bind="$attrs.endOptions"
       />
     </div>
   </div>

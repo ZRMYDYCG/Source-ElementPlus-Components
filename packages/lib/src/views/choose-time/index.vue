@@ -6,6 +6,11 @@ const handleStartChange = (value: Date) => {
 const handleEndChange = (value: Date) => {
   console.log(value)
 }
+
+const startOptions = {
+  size: "mini",
+  clearable: false,
+}
 </script>
 
 <template>
@@ -13,6 +18,7 @@ const handleEndChange = (value: Date) => {
     <yq-choose-time
       @startTimeChange="handleStartChange"
       @endTimeChange="handleEndChange"
+      :startOptions="startOptions"
     ></yq-choose-time>
   </div>
 </template>
