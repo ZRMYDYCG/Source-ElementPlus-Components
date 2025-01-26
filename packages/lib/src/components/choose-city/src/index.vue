@@ -56,10 +56,14 @@ const options = ref(city)
         </div>
       </div>
       <el-scrollbar max-height="300px">
-        <template v-for="(value, key) in options.cities">
+        <template v-for="(value, key) in options.cities" :key="key">
           <el-row>
-            <el-col :span="2"></el-col>
-            <el-col :span="22"></el-col>
+            <el-col :span="1"> {{ key }}: </el-col>
+            <el-col :span="23" class="item-name">
+              <div v-for="(item, index) in value" :key="index">
+                <div>{{ item.name }}</div>
+              </div>
+            </el-col>
           </el-row>
         </template>
       </el-scrollbar>
@@ -71,5 +75,10 @@ const options = ref(city)
 svg {
   width: 1em;
   height: 1em;
+}
+.item-name {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
 }
 </style>
