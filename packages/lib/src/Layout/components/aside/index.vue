@@ -41,6 +41,11 @@ const data = [
     name: "进度条",
     index: "/progress",
   },
+  {
+    icon: "ElementPlus",
+    name: "时间选择器",
+    index: "/chooseTime"
+  }
 ]
 </script>
 
