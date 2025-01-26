@@ -34,6 +34,31 @@ const clickChar = (item: string) => {
   }
 }
 
+const CustomFilterMethod = (val: string) => {
+  console.log(val)
+  if (val === "") {
+    options.value = Object.values(optionsCity.value.cities).flat(Infinity)
+  } else {
+    if (radioValue.value === "按城市") {
+      // 中文和拼英一起进行过滤
+      options.value = Object.values(optionsCity.value.cities)
+        .flat(Infinity)
+        .filter((item: any) => {
+          return item.name.includes(val) || item.spell.includes(val)
+        })
+
+      console.log(options.value)
+    } else {
+      // 中文过滤
+      options.value = Object.values(optionsCity.value.cities)
+        .flat(Infinity)
+        .filter((item: any) => {
+          return item.name.includes(val)
+        })
+    }
+  }
+}
+
 onMounted(() => {
   options.value = Object.values(optionsCity.value.cities).flat(Infinity)
 })
@@ -72,6 +97,7 @@ onMounted(() => {
             size="small"
             style="width: 240px"
             filterable
+            :filter-method="CustomFilterMethod"
           >
             <el-option
               v-for="item in options"
