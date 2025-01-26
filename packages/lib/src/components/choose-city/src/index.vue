@@ -24,7 +24,11 @@ const clickCity = (item) => {
 const clickProvince = (item) => {
   result.value = item
   visible.value = false
-  emits("changeProvince", item)
+  if (radioValue.value === "按城市") {
+    emits("changeCity", item)
+  } else {
+    emits("changeProvince", item)
+  }
 }
 
 const clickChar = (item: string) => {
@@ -32,6 +36,12 @@ const clickChar = (item: string) => {
   if (el) {
     el.scrollIntoView({ behavior: "smooth" })
   }
+}
+
+const changSelect = (val) => {
+  result.value = options.value.find((item) => item.id === val).name
+  visible.value = false
+  emits("changeCity", val)
 }
 
 const CustomFilterMethod = (val: string) => {
@@ -98,6 +108,7 @@ onMounted(() => {
             style="width: 240px"
             filterable
             :filter-method="CustomFilterMethod"
+            @change="changSelect"
           >
             <el-option
               v-for="item in options"
