@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue"
+import { onMounted, ref } from "vue"
 import city from "../lib/city.ts"
 import province from "../lib/province.ts"
 
@@ -12,6 +12,8 @@ const radioValue = ref("按省份")
 const selectValue = ref("")
 const optionsCity = ref(city)
 const optionsProvince = ref(province)
+// 所有的城市的数据
+const options = ref([])
 
 const clickCity = (item) => {
   result.value = item.name
@@ -31,6 +33,10 @@ const clickChar = (item: string) => {
     el.scrollIntoView({ behavior: "smooth" })
   }
 }
+
+onMounted(() => {
+  options.value = Object.values(optionsCity.value.cities).flat(Infinity)
+})
 </script>
 
 <template>
@@ -62,11 +68,17 @@ const clickChar = (item: string) => {
         <el-col :span="14" :offset="2">
           <el-select
             v-model="selectValue"
-            placeholder="Select"
+            placeholder="请选择"
             size="small"
             style="width: 240px"
+            filterable
           >
-            <el-option v-for="item in optionsCity" />
+            <el-option
+              v-for="item in options"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            />
           </el-select>
         </el-col>
       </el-row>
