@@ -56,6 +56,11 @@ const data = [
     name: "城市选择器",
     index: "/chooseCity",
   },
+  {
+    icon: "ElementPlus",
+    name: "表格",
+    index: "/table",
+  },
 ]
 </script>
 
