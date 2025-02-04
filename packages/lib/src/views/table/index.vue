@@ -1,33 +1,11 @@
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref, onMounted } from "vue"
+import axios from "axios"
+import "../../../mock/index.ts"
 import type { TableOptions } from "@/components/table/src/interface.ts"
 
 // 假数据
 const tableData = ref([])
-setTimeout(() => {
-  tableData.value = [
-    {
-      date: "2016-05-03",
-      name: "Tom",
-      address: "No. 189, Grove St, Los Angeles",
-    },
-    {
-      date: "2016-05-02",
-      name: "Tom",
-      address: "No. 189, Grove St, Los Angeles",
-    },
-    {
-      date: "2016-05-04",
-      name: "Tom",
-      address: "No. 189, Grove St, Los Angeles",
-    },
-    {
-      date: "2016-05-01",
-      name: "Tom",
-      address: "No. 189, Grove St, Los Angeles",
-    },
-  ]
-}, 3000)
 
 // 表格配置
 const options: TableOptions[] = [
@@ -42,11 +20,13 @@ const options: TableOptions[] = [
     prop: "name",
     align: "center",
     slot: "name",
+    editable: true,
   },
   {
     label: "地址",
     prop: "address",
     align: "center",
+    editable: true,
   },
   {
     label: "操作",
@@ -55,13 +35,52 @@ const options: TableOptions[] = [
   },
 ]
 
+const current = ref(1)
+const pageSize = ref(10)
+const total = ref(0)
+
 function handleEdit(row: any) {
   console.log(row)
+}
+
+function getTableData() {
+  axios
+    .post("/api/list", {
+      current: current.value,
+      pageSize: pageSize.value,
+    })
+    .then((res) => {
+      tableData.value = res.data.data.rows
+      total.value = res.data.data.total
+      console.log(res.data)
+    })
+}
+
+onMounted(() => {
+  getTableData()
+})
+
+const handleCurrentChange = (currentPage: number) => {
+  current.value = currentPage
+  getTableData()
+}
+
+const handlePageSizeChange = (size: number) => {
+  pageSize.value = size
+  getTableData()
 }
 </script>
 
 <template>
-  <yq-table :data="tableData" :options="options" elementLoadingText="加载中...">
+  <yq-table
+    :data="tableData"
+    :options="options"
+    elementLoadingText="加载中..."
+    pagination
+    :total="total"
+    @current-change="handleCurrentChange"
+    @size-change="handlePageSizeChange"
+  >
     <template #action="{ scope }">
       <el-button size="small" type="text" @click="handleEdit(scope)"
         >编辑</el-button
