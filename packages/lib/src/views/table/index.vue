@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" xmlns="">
 import type { TableOptions } from "@/components/table/src/interface.ts"
 
 const tableData = [
@@ -29,22 +29,46 @@ const options: TableOptions[] = [
     label: "日期",
     prop: "date",
     align: "center",
+    slot: "date",
   },
   {
     label: "姓名",
     prop: "name",
     align: "center",
+    slot: "name",
   },
   {
     label: "地址",
     prop: "address",
     align: "center",
   },
+  {
+    label: "操作",
+    action: true,
+    align: "center",
+  },
 ]
+function handleEdit(row: any) {
+  console.log(row)
+}
 </script>
 
 <template>
-  <yq-table :data="tableData" :options="options"></yq-table>
+  <yq-table :data="tableData" :options="options">
+    <template #action="{ scope }">
+      <el-button size="small" type="text" @click="handleEdit(scope)"
+        >编辑</el-button
+      >
+    </template>
+    <template #date="{ scope }">
+      <span class="text-red-700">{{ scope.row.date }}</span>
+    </template>
+    <template #name="{ scope }">
+      <el-tag>
+        <span>{{ scope.row.name }}</span>
+      </el-tag>
+    </template>
+  </yq-table>
 </template>
 
 <style scoped></style>
