@@ -8,6 +8,14 @@ const props = withDefaults(
     options: TableOptions[]
     // 表格数据
     data: any[]
+    // loading 状态时的加载文案
+    elementLoadingText?: string
+    // 加载的图标名
+    elementLoadingSpinner?: string
+    // 加载的背景色
+    elementLoadingBackground?: string
+    // 加载 svg
+    elementLoadingSvgViewBox?: string
   }>(),
   {},
 )
@@ -17,10 +25,20 @@ const tableOptions = computed(() =>
   props.options.filter((item) => !item.action),
 )
 const actionOptions = computed(() => props.options.find((item) => item.action))
+
+// 表格数据是否在加载中
+const isLoading = computed(() => !props.data || !props.data.length)
 </script>
 
 <template>
-  <el-table :data="data">
+  <el-table
+    :data="data"
+    v-loading="isLoading"
+    :element-loading-text="elementLoadingText"
+    :element-loading-spinner="elementLoadingSpinner"
+    :element-loading-background="elementLoadingBackground"
+    :element-loading-svg-view-box="elementLoadingSvgViewBox"
+  >
     <template v-for="(item, index) in tableOptions" :key="index">
       <!-- 普通渲染 -->
       <el-table-column
