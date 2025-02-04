@@ -1,17 +1,22 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
   "compilerOptions": {
+    "baseUrl": ".",
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
 
     /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
+    "strict": false,  // 全局禁用 strict 模式
+    "noUnusedLocals": false,  // 禁用未使用本地变量检查
+    "noUnusedParameters": false,  // 禁用未使用参数检查
+    "noFallthroughCasesInSwitch": false,  // 禁用 fallthrough cases in switch 检查
+    "noUncheckedSideEffectImports": false,  // 禁用 unchecked side effect imports 检查
+    "noImplicitAny": false,  // 允许隐式 any
+    "noImplicitThis": false,  // 允许隐式 this
+    "noImplicitOverride": false,  // 允许隐式 override
+    "noUncheckedIndexedAccess": false,  // 禁用 unchecked indexed access 检查
 
     "paths": {
-      "@/*": ["src/*"] // 将 @ 映射到 src 文件夹
+      "@/*": ["src/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"]

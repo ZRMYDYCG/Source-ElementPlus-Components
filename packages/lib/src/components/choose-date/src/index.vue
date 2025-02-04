@@ -73,7 +73,7 @@ watch(
         type="date"
         :placeholder="startPlaceholder"
         :disabledDate="startDisabledDate"
-        v-bind="$attrs.startOptions"
+        v-bind="$attrs.startOptions || {}"
       />
     </div>
     <div>
@@ -83,7 +83,7 @@ watch(
         :placeholder="endPlaceholder"
         :disabled="endTimeDisabled"
         :disabledDate="endDisabledDate"
-        v-bind="$attrs.endOptions"
+        v-bind="$attrs.endOptions || {}"
       />
     </div>
   </div>

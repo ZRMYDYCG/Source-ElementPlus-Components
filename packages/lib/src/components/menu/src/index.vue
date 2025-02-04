@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { MenuItem } from "./type.ts"
+import type { MenuItem } from "./type.ts"
 import { toKebabCase } from "@/utils"
 
 const props = withDefaults(
