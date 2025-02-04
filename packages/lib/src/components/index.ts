@@ -10,6 +10,7 @@ import ChooseTime from "./choose-time"
 import ChooseDate from "./choose-date"
 import ChooseCity from "./choose-city"
 import Table from "./table"
+import Form from "./form"
 
 const components = [
   chooseArea,
@@ -23,6 +24,7 @@ const components = [
   ChooseDate,
   ChooseCity,
   Table,
+  Form,
 ]
 
 export default {

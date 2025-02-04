@@ -61,6 +61,11 @@ const data = [
     name: "表格",
     index: "/table",
   },
+  {
+    icon: "ElementPlus",
+    name: "表单",
+    index: "/form",
+  },
 ]
 </script>
 
