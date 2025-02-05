@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { ref } from "vue"
 import { ElMessage, ElMessageBox } from "element-plus"
+
+const form = ref(null)
 
 const options = [
   {
@@ -182,12 +185,14 @@ const submitForm = (scope: any) => {
 }
 
 const resetForm = (scope: any) => {
+  form.value.resetFields()
   console.log("resetForm")
 }
 </script>
 
 <template>
   <yq-form
+    ref="form"
     :options="options"
     @on-preview="handlePreview"
     @on-remove="handleRemove"

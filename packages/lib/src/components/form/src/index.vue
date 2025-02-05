@@ -94,6 +94,8 @@ const form = ref<any>(null)
 const model = ref(null)
 const rules = ref({})
 
+const edit = ref()
+
 const initForm = () => {
   if (props.options && props.options.length) {
     let m: any = {}
@@ -120,6 +122,15 @@ const initForm = () => {
     })
     model.value = cloneDeep(m)
     rules.value = cloneDeep(r)
+  }
+}
+
+// 重置表单
+const resetFields = () => {
+  form.value.resetFields()
+  if (props.options && props.options.length) {
+    let editorItem = props.options.find((item) => item.type === "editor")
+    edit.value.txt.html(editorItem.value)
   }
 }
 
@@ -173,6 +184,10 @@ const onExceed = (files: any, fileList: any) => {
 onMounted(() => {
   initForm()
 })
+
+defineExpose({
+  resetFields,
+})
 </script>
 
 <template>
@@ -214,9 +229,7 @@ onMounted(() => {
           <!--     文件上传提示信息     -->
           <slot name="uploadTip"> </slot>
         </el-upload>
-        <div v-if="item.type === 'editor'" id="editor">
-          {{ model[item.prop] }}
-        </div>
+        <div v-if="item.type === 'editor'" id="editor"></div>
       </el-form-item>
       <el-form-item
         v-if="item.children && item.children.length"
