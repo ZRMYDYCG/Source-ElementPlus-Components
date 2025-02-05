@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue"
+import { ref, onMounted, watch } from "vue"
 import type { RuleItem } from "./rule.ts"
 import cloneDeep from "lodash/cloneDeep"
 import type { CSSProperties } from "vue"
@@ -68,6 +68,14 @@ const initForm = () => {
     rules.value = cloneDeep(r)
   }
 }
+
+watch(
+  () => props.options,
+  () => {
+    initForm()
+  },
+  { deep: true },
+)
 
 onMounted(() => {
   initForm()
