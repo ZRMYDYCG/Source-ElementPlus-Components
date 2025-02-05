@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from "vue"
+import { ref, onMounted, watch, nextTick } from "vue"
 import type { RuleItem } from "./rule.ts"
 import cloneDeep from "lodash/cloneDeep"
 import type { CSSProperties } from "vue"
+import E from "wangeditor"
 
 interface FormOptions {
   // 表单项显示的元素
@@ -100,6 +101,22 @@ const initForm = () => {
     props.options.map((item: FormOptions) => {
       m[item.prop] = item.value
       r[item.prop] = item.rules
+      if (item.type === "editor") {
+        // 初始化富文本编辑器
+        nextTick(() => {
+          if (document.getElementById("editor")) {
+            const editor = new E("#editor")
+            editor.config.placeholder = item.placeholder
+            editor.create()
+            // 初始富文本编辑器内容
+            editor.txt.html(item.value)
+            // 监听富文本编辑器内容变化, 给表单项赋值
+            editor.config.onchange = (newHtml: string) => {
+              model.value[item.prop] = newHtml
+            }
+          }
+        })
+      }
     })
     model.value = cloneDeep(m)
     rules.value = cloneDeep(r)
@@ -174,12 +191,13 @@ onMounted(() => {
         v-if="!item.children || !item.children.length"
       >
         <component
-          v-if="item.type !== 'upload'"
+          v-if="item.type !== 'upload' && item.type !== 'editor'"
           v-bind="item.attrs"
           :is="`el-${item.type}`"
           v-model="model[item.prop]"
         ></component>
         <el-upload
+          v-if="item.type === 'upload'"
           v-bind="item.uploadAttrs"
           :on-preview="onPreview"
           :on-remove="onRemove"
@@ -190,13 +208,15 @@ onMounted(() => {
           :before-remove="beforeRemove"
           :before-upload="beforeUpload"
           :on-exceed="onExceed"
-          v-else
         >
           <!--     文件上传触发区域     -->
           <slot name="uploadTrigger"> </slot>
           <!--     文件上传提示信息     -->
           <slot name="uploadTip"> </slot>
         </el-upload>
+        <div v-if="item.type === 'editor'" id="editor">
+          {{ model[item.prop] }}
+        </div>
       </el-form-item>
       <el-form-item
         v-if="item.children && item.children.length"

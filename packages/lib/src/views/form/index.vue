@@ -118,6 +118,7 @@ const options = [
     value: "",
     prop: "desc",
     label: "描述",
+    placeholder: "请输入描述...............",
     rules: [
       {
         required: true,
