@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import { ref, onMounted } from "vue"
 import type { RuleItem } from "./rule.ts"
+import cloneDeep from "lodash/cloneDeep"
+import type { CSSProperties } from "vue"
+
 interface FormOptions {
   // 表单项显示的元素
   type:
@@ -38,23 +42,75 @@ interface FormOptions {
     clearable?: boolean
     showPassword?: boolean
     disabled?: boolean
+    // css 样式
+    style?: CSSProperties
   }
+  // 表单项的子元素
+  children?: FormOptions[]
 }
 
 const props = defineProps<{
   options: FormOptions[]
 }>()
+
+const model = ref(null)
+const rules = ref({})
+
+const initForm = () => {
+  if (props.options && props.options.length) {
+    let m: any = {}
+    let r: any = {}
+    props.options.map((item: FormOptions) => {
+      m[item.prop] = item.value
+      r[item.prop] = item.rules
+    })
+    model.value = cloneDeep(m)
+    rules.value = cloneDeep(r)
+  }
+}
+
+onMounted(() => {
+  initForm()
+})
 </script>
 
 <template>
-  <el-form v-bind="$attrs">
-    <el-form-item
-      v-for="(item, index) in options"
-      :key="index"
-      :label="item.label"
-    >
-      <component v-bind="item.attrs" :is="`el-${item.type}`"></component>
-    </el-form-item>
+  <el-form
+    :validate-on-rule-change="false"
+    v-bind="$attrs"
+    :model="model"
+    :rules="rules"
+    v-if="model"
+  >
+    <template v-for="(item, index) in options" :key="index">
+      <el-form-item
+        :label="item.label"
+        :prop="item.prop"
+        v-if="!item.children || !item.children.length"
+      >
+        <component
+          v-bind="item.attrs"
+          :is="`el-${item.type}`"
+          v-model="model[item.prop]"
+        ></component>
+      </el-form-item>
+      <el-form-item v-if="item.children && item.children.length">
+        <component
+          v-bind="item.attrs"
+          :is="`el-${item.type}`"
+          v-model="model[item.prop]"
+        >
+          <component
+            v-for="(child, index) in item.children"
+            :key="index"
+            :label="child.label"
+            :value="child.value"
+            :is="`el-${child.type}`"
+          >
+          </component>
+        </component>
+      </el-form-item>
+    </template>
   </el-form>
 </template>
 

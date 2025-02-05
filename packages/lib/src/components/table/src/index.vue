@@ -75,9 +75,9 @@ const handleCurrentChange = (val: number) => {
       </el-table-column>
     </template>
     <el-table-column
-      :label="actionOptions!.label"
-      :align="actionOptions!.align || 'left'"
-      :width="actionOptions!.width || ''"
+      :label="actionOptions.label"
+      :align="actionOptions.align || 'left'"
+      :width="actionOptions.width || ''"
     >
       <template #default="scope">
         <slot name="action" :scope="scope"></slot>
