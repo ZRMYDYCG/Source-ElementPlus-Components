@@ -113,6 +113,19 @@ const options = [
     },
     rules: [{ required: true, message: "请上传文件", trigger: "blur" }],
   },
+  {
+    type: "editor",
+    value: "",
+    prop: "desc",
+    label: "描述",
+    rules: [
+      {
+        required: true,
+        message: "请输入描述",
+        trigger: "blur",
+      },
+    ],
+  },
 ]
 
 const handlePreview = (file: any) => {

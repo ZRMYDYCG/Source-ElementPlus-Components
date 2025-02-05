@@ -27,6 +27,7 @@ interface FormOptions {
     | "time-select"
     | "transfer"
     | "upload"
+    | "editor "
   // 表单项的值
   value?: any
   // 表单的Label
@@ -197,7 +198,11 @@ onMounted(() => {
           <slot name="uploadTip"> </slot>
         </el-upload>
       </el-form-item>
-      <el-form-item v-if="item.children && item.children.length">
+      <el-form-item
+        v-if="item.children && item.children.length"
+        :label="item.label"
+        :prop="item.prop"
+      >
         <component
           v-bind="item.attrs"
           :is="`el-${item.type}`"
