@@ -107,6 +107,8 @@ const options = [
     prop: "pic",
     uploadAttrs: {
       action: "https://jsonplaceholder.typicode.com/posts/",
+      multiple: true,
+      limit: 3,
     },
     rules: [{ required: true, message: "请上传文件", trigger: "blur" }],
   },
@@ -164,7 +166,6 @@ const handleChange = (val: any) => {
     @on-exceed="handleExceed"
     @beforeUpload="beforeUpload"
     @on-change="handleChange"
-    multiple
   >
     <template #uploadTrigger>
       <el-button type="primary" size="small">上传文件</el-button>

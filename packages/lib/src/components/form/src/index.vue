@@ -69,7 +69,10 @@ interface FormOptions {
 }
 
 const props = defineProps<{
+  // 表单项配置
   options: FormOptions[]
+  // 用户自定义的文件上传方法
+  httRequest?: () => void
 }>()
 
 const emits = defineEmits([
@@ -81,7 +84,6 @@ const emits = defineEmits([
   "on-change",
   "before-remove",
   "before-upload",
-  "http-request",
   "on-exceed",
 ])
 
@@ -145,10 +147,6 @@ const onExceed = (files: any, fileList: any) => {
   emits("on-exceed", { files, fileList })
 }
 
-const httpRequest = () => {
-  return emits("http-request")
-}
-
 onMounted(() => {
   initForm()
 })
@@ -184,7 +182,6 @@ onMounted(() => {
           :on-change="onChange"
           :before-remove="beforeRemove"
           :before-upload="beforeUpload"
-          :http-request="httpRequest"
           :on-exceed="onExceed"
           v-else
         >
