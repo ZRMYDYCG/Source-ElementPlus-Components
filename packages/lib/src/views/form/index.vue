@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ElMessageBox } from "element-plus"
+
 const options = [
   {
     type: "input",
@@ -99,11 +101,78 @@ const options = [
       },
     ],
   },
+  {
+    type: "upload",
+    label: "上传文件",
+    prop: "pic",
+    uploadAttrs: {
+      action: "https://jsonplaceholder.typicode.com/posts/",
+    },
+    rules: [{ required: true, message: "请上传文件", trigger: "blur" }],
+  },
 ]
+
+const handlePreview = (file: any) => {
+  console.log("handlePreview", file)
+}
+
+const handleRemove = (file: any, fileList: any) => {
+  console.log("handleRemove", file, fileList)
+  return ElMessageBox.confirm("确定要删除吗？")
+}
+
+const beforeRemove = (val: any) => {
+  console.log("beforeRemove", val)
+}
+
+const handleSuccess = (res: any) => {
+  console.log("handleSuccess", res)
+}
+
+const handleExceed = (val: any) => {
+  console.log("handleExceed", val)
+  ElMessageBox.alert("文件数量超出限制！")
+}
+
+const beforeUpload = (file: any) => {
+  console.log("beforeUpload", file)
+  const isJPG = file.type === "image/jpeg" || file.type === "image/png"
+  const isLt2M = file.size / 1024 / 1024 < 2
+  if (!isJPG) {
+    ElMessageBox.alert("只能上传jpg/png格式的图片!")
+    return false
+  }
+  if (!isLt2M) {
+    ElMessageBox.alert("图片大小不能超过2M!")
+    return false
+  }
+  return true
+}
+
+const handleChange = (val: any) => {
+  console.log("handleChange", val)
+}
 </script>
 
 <template>
-  <yq-form :options="options"></yq-form>
+  <yq-form
+    :options="options"
+    @on-preview="handlePreview"
+    @on-remove="handleRemove"
+    @before-remove="beforeRemove"
+    @on-success="handleSuccess"
+    @on-exceed="handleExceed"
+    @beforeUpload="beforeUpload"
+    @on-change="handleChange"
+    multiple
+  >
+    <template #uploadTrigger>
+      <el-button type="primary" size="small">上传文件</el-button>
+    </template>
+    <template #uploadTip>
+      <div class="text-gray-500">支持上传jpg/png文件，大小不超过2M</div>
+    </template>
+  </yq-form>
 </template>
 
 <style scoped></style>

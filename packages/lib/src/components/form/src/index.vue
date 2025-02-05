@@ -28,7 +28,7 @@ interface FormOptions {
     | "transfer"
     | "upload"
   // 表单项的值
-  value: any
+  value?: any
   // 表单的Label
   label?: string
   // 表单的标识
@@ -47,11 +47,43 @@ interface FormOptions {
   }
   // 表单项的子元素
   children?: FormOptions[]
+  // 处理上传组件的属性和方法
+  uploadAttrs?: {
+    action: string
+    headers?: object
+    method?: "post" | "put" | "patch"
+    multiple?: boolean
+    data?: any
+    name?: string
+    withCredentials?: boolean
+    showFileList?: boolean
+    drag?: boolean
+    accept?: string
+    thumbnailMode?: boolean
+    fileList?: any[]
+    listType?: "text" | "picture" | "picture-card"
+    autoUpload?: boolean
+    disabled?: boolean
+    limit?: number
+  }
 }
 
 const props = defineProps<{
   options: FormOptions[]
 }>()
+
+const emits = defineEmits([
+  "on-preview",
+  "on-remove",
+  "on-success",
+  "on-error",
+  "on-progress",
+  "on-change",
+  "before-remove",
+  "before-upload",
+  "http-request",
+  "on-exceed",
+])
 
 const model = ref(null)
 const rules = ref({})
@@ -77,6 +109,46 @@ watch(
   { deep: true },
 )
 
+const onPreview = (file: any) => {
+  emits("on-preview", file)
+}
+
+const onRemove = (file: any, fileList: any) => {
+  emits("on-remove", { file, fileList })
+}
+
+const onSuccess = (response: any, file: any, fileList: any) => {
+  emits("on-success", { response, file, fileList })
+}
+
+const onError = (err: any, file: any, fileList: any) => {
+  emits("on-error", { err, file, fileList })
+}
+
+const onProgress = (event: any, file: any, fileList: any) => {
+  emits("on-progress", { event, file, fileList })
+}
+
+const onChange = (file: any, fileList: any) => {
+  emits("on-change", { file, fileList })
+}
+
+const beforeRemove = (file: any, fileList: any) => {
+  return emits("before-remove", { file, fileList })
+}
+
+const beforeUpload = (file: any) => {
+  return emits("before-upload", file)
+}
+
+const onExceed = (files: any, fileList: any) => {
+  emits("on-exceed", { files, fileList })
+}
+
+const httpRequest = () => {
+  return emits("http-request")
+}
+
 onMounted(() => {
   initForm()
 })
@@ -97,10 +169,30 @@ onMounted(() => {
         v-if="!item.children || !item.children.length"
       >
         <component
+          v-if="item.type !== 'upload'"
           v-bind="item.attrs"
           :is="`el-${item.type}`"
           v-model="model[item.prop]"
         ></component>
+        <el-upload
+          v-bind="item.uploadAttrs"
+          :on-preview="onPreview"
+          :on-remove="onRemove"
+          :on-success="onSuccess"
+          :on-error="onError"
+          :on-progress="onProgress"
+          :on-change="onChange"
+          :before-remove="beforeRemove"
+          :before-upload="beforeUpload"
+          :http-request="httpRequest"
+          :on-exceed="onExceed"
+          v-else
+        >
+          <!--     文件上传触发区域     -->
+          <slot name="uploadTrigger"> </slot>
+          <!--     文件上传提示信息     -->
+          <slot name="uploadTip"> </slot>
+        </el-upload>
       </el-form-item>
       <el-form-item v-if="item.children && item.children.length">
         <component
