@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ElMessageBox } from "element-plus"
+import { ElMessage, ElMessageBox } from "element-plus"
 
 const options = [
   {
@@ -82,6 +82,7 @@ const options = [
         value: "football",
       },
     ],
+    rules: [{ required: true, message: "请选择爱好", trigger: "blur" }],
   },
   {
     type: "radio-group",
@@ -154,6 +155,21 @@ const beforeUpload = (file: any) => {
 const handleChange = (val: any) => {
   console.log("handleChange", val)
 }
+
+const submitForm = (scope: any) => {
+  scope.form.validate((valid: boolean) => {
+    if (valid) {
+      ElMessage.success("表单验证成功")
+      console.log("submitForm", scope.model)
+    } else {
+      ElMessage.error("表单验证失败")
+    }
+  })
+}
+
+const resetForm = (scope: any) => {
+  console.log("resetForm")
+}
 </script>
 
 <template>
@@ -172,6 +188,14 @@ const handleChange = (val: any) => {
     </template>
     <template #uploadTip>
       <div class="text-gray-500">支持上传jpg/png文件，大小不超过2M</div>
+    </template>
+    <template #actions="scope">
+      <el-button type="primary" size="small" @click.native="submitForm(scope)"
+        >提交</el-button
+      >
+      <el-button type="warning" size="small" @click="resetForm(scope)"
+        >重置</el-button
+      >
     </template>
   </yq-form>
 </template>

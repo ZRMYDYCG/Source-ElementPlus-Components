@@ -87,6 +87,8 @@ const emits = defineEmits([
   "on-exceed",
 ])
 
+const form = ref<any>(null)
+
 const model = ref(null)
 const rules = ref({})
 
@@ -159,6 +161,7 @@ onMounted(() => {
     :model="model"
     :rules="rules"
     v-if="model"
+    ref="form"
   >
     <template v-for="(item, index) in options" :key="index">
       <el-form-item
@@ -208,6 +211,10 @@ onMounted(() => {
         </component>
       </el-form-item>
     </template>
+    <el-form-item>
+      <!--   将表单实例通过作用域插槽暴露给外部调用其实例方法以及表单收集到的数据   -->
+      <slot name="actions" :form="form" :model="model"></slot>
+    </el-form-item>
   </el-form>
 </template>
 
