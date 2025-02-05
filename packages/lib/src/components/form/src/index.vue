@@ -122,6 +122,9 @@ const onRemove = (file: any, fileList: any) => {
 }
 
 const onSuccess = (response: any, file: any, fileList: any) => {
+  // 文件上传成功后, 给表单项进行赋值
+  let uploadItem = props.options.find((item) => item.type === "upload")
+  model.value[uploadItem.prop] = { response, file, fileList }
   emits("on-success", { response, file, fileList })
 }
 
