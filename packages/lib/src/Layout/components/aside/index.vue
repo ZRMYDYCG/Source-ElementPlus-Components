@@ -66,6 +66,11 @@ const data = [
     name: "表单",
     index: "/form",
   },
+  {
+    icon: "ElementPlus",
+    name: "modal-form",
+    index: "/modal-form",
+  },
 ]
 </script>
 
