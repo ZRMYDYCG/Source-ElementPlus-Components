@@ -47,14 +47,7 @@ const options = [
     value: "",
     placeholder: "请选择职位",
     label: "职位",
-    props: "role",
-    rules: [
-      {
-        required: true,
-        message: "职位不能为空",
-        trigger: "blur",
-      },
-    ],
+    prop: "role",
     children: [
       {
         label: "管理员",
@@ -65,6 +58,13 @@ const options = [
         label: "普通用户",
         value: "user",
         type: "option",
+      },
+    ],
+    rules: [
+      {
+        required: true,
+        message: "职位不能为空",
+        trigger: "blur",
       },
     ],
   },
@@ -104,6 +104,7 @@ const options = [
         value: "football",
       },
     ],
+    rules: [{ required: true, message: "请选择性别", trigger: "blur" }],
   },
   {
     type: "upload",

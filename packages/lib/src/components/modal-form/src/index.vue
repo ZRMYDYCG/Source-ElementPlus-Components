@@ -1,10 +1,17 @@
 <script setup lang="ts">
-import { ref, watch } from "vue"
+import { type PropType, ref, watch } from "vue"
+import type { FormOptions } from "../../form/src/interface.ts"
+
+const form = ref<any>(null)
 
 const props = defineProps({
   visible: {
     type: Boolean,
     default: false,
+  },
+  options: {
+    type: Array as PropType<FormOptions[]>,
+    required: true,
   },
 })
 
@@ -26,9 +33,11 @@ watch(dialogVisible, (value) => {
 
 <template>
   <el-dialog v-model="dialogVisible" v-bind="$attrs">
-    <template #default>表单内容</template>
+    <template #default>
+      <yq-form ref="form" :options="options"></yq-form>
+    </template>
     <template #footer>
-      <slot name="footer"></slot>
+      <slot name="footer" :form="form"></slot>
     </template>
   </el-dialog>
 </template>
